@@ -38,7 +38,7 @@ int long previousTime = 0;
 
 int ledFlags[NUM_LEDS] = {0,0,0}; // indicates which leds are to be on
 
-bool isGameOver = false;
+bool isDoorUnlocked = true;
 
 void setup(){
   
@@ -68,7 +68,7 @@ void loop(){
 
   // Reset by holding the buttons 5 and 6 at the same time for three seconds
   // Polls the state of the reset buttons, waits 3 seconds then checks the state again
-  if (isGameOver){  
+  if (isDoorUnlocked){  
     if (debounce[RESET_BUTTON].read() == LOW && debounce[OTHER_RESET_BUTTON].read() == LOW){
       Serial.println("5 ,6 Being held");
       delay(RESET_BUTTON_HOLD_TIME);
@@ -155,16 +155,16 @@ void reset(){
   }
     
   sequenceCounter = 0;
-  isGameOver = false;
+  isDoorUnlocked = false;
 
-  digitalWrite(RELAY_PIN, HIGH); // turn on the magnet lock 
+  digitalWrite(RELAY_PIN, LOW); // turn on the magnet lock 
  
 }
 
 void win(){
   
-  isGameOver = true;
-  digitalWrite(RELAY_PIN, LOW);// turn off the magnet!!! 
+  isDoorUnlocked = true;
+  digitalWrite(RELAY_PIN, HIGH);// turn off the magnet!!! 
   // make it dance
   int flicker = 100;
   
@@ -195,12 +195,4 @@ void dance(){
   delay(flicker);
   }
 
-  
 }
-
-
-
-
-
-
-
